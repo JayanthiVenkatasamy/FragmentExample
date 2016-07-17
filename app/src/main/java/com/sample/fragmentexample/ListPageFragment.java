@@ -41,6 +41,7 @@ public class ListPageFragment extends Fragment   {
     private Context mContext;
     private boolean isImageDownloaderStarted = false;
     private List<String> mImageUrlList;
+    private boolean isDownloaded = false;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -75,6 +76,7 @@ public class ListPageFragment extends Fragment   {
                     Gson gson = new Gson();
                     mJsonDataParser = gson.fromJson(jsonParserdata,JSONDataParser.class);
                     onUpdateToolBarListener.onUpdateToolBarTitle(mJsonDataParser.getmFactsDataContainer().header);
+                    isDownloaded = true;
                 }
                 updateView();
             }
@@ -107,7 +109,9 @@ public class ListPageFragment extends Fragment   {
     public void onResume() {
         super.onResume();
         Log.d("TAG","---onResume ListFragent---");
-        downloadData();
+         if(!isDownloaded) {
+            downloadData();
+        }
     }
 
     public void downloadData() {
